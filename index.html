@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MovieLinkBD</title>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+background:#080b14;
+color:white;
+font-family:Arial,sans-serif;
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+.container{
+width:100%;
+max-width:450px;
+background:#111827;
+border:1px solid #263248;
+border-radius:18px;
+padding:28px;
+text-align:center;
+}
+h1{color:#38bdf8;font-size:32px}
+p{color:#aab6c8}
+input{
+width:100%;
+padding:15px;
+margin:15px 0;
+border:1px solid #334155;
+border-radius:9px;
+background:#080b14;
+color:white;
+}
+button{
+width:100%;
+padding:14px;
+border:0;
+border-radius:9px;
+background:#0284c7;
+color:white;
+font-weight:bold;
+margin-top:10px;
+cursor:pointer;
+}
+#result{
+display:none;
+margin-top:20px;
+overflow-wrap:anywhere;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>MOVIELINKBD</h1>
+<p>Share your video links easily</p>
+
+<input id="url" type="url"
+placeholder="Paste original video URL">
+
+<button onclick="generateLink()">
+Generate Link
+</button>
+
+<div id="result">
+<p>Your link:</p>
+<input id="shortLink" readonly>
+<button onclick="copyLink()">Copy Link</button>
+</div>
+</div>
+
+<script>
+function generateLink(){
+const url=document.getElementById("url").value.trim();
+try{
+const parsed=new URL(url);
+if(!["http:","https:"].includes(parsed.protocol))throw 0;
+const encoded=btoa(encodeURIComponent(parsed.href));
+const link=location.origin+location.pathname+"?video="+encoded;
+document.getElementById("shortLink").value=link;
+document.getElementById("result").style.display="block";
+}catch(e){
+alert("Please enter a valid video URL");
+}
+}
+function copyLink(){
+const field=document.getElementById("shortLink");
+field.select();
+navigator.clipboard.writeText(field.value);
+alert("Link copied!");
+}
+</script>
+</body>
+</html>
